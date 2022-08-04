@@ -1,4 +1,7 @@
 import random
+import os,sys
+sys.path.append(os.getcwd())
+print(sys.path)
 
 import pymysql
 import requests
