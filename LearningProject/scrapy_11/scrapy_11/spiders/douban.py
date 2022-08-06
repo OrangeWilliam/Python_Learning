@@ -6,7 +6,6 @@ class douban(scrapy.Spider):
     def start_requests(self):
         for keyword in  ['你好李焕英','夏洛特烦恼','羞羞的铁拳']:
             url= f"https://www.douban.com/search?q={keyword}"
-            #url="http://httpbin.org/get"
             yield scrapy.FormRequest(
                 url=url,
                 method="GET",
