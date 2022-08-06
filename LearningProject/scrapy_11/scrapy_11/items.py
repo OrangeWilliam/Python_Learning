@@ -8,5 +8,7 @@ import scrapy
 
 class Scrapy11Item(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    type = scrapy.Field()
+    name = scrapy.Field()
+    rate = scrapy.Field()
+    text_area = scrapy.Field()
