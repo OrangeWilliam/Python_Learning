@@ -7,9 +7,14 @@ class douban(scrapy.Spider):
     name = "douban"
 
     def start_requests(self):
+<<<<<<< HEAD
+        for keyword in  ['你好李焕英','夏洛特烦恼','羞羞的铁拳']:
+            url= f"https://www.douban.com/search?q={keyword}"
+=======
         for keyword in ['你好李焕英', '夏洛特烦恼', '羞羞的铁拳']:
             url = f"https://www.douban.com/search?q={keyword}"
             # url="http://httpbin.org/get"
+>>>>>>> 1625bafad41b456730a435eda0c25b57c3e0d5f6
             yield scrapy.FormRequest(
                 url=url,
                 method="GET",
