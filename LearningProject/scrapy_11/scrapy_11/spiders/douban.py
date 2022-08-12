@@ -7,14 +7,10 @@ class douban(scrapy.Spider):
     name = "douban"
 
     def start_requests(self):
-<<<<<<< HEAD
+
         for keyword in  ['你好李焕英','夏洛特烦恼','羞羞的铁拳']:
             url= f"https://www.douban.com/search?q={keyword}"
-=======
-        for keyword in ['你好李焕英', '夏洛特烦恼', '羞羞的铁拳']:
-            url = f"https://www.douban.com/search?q={keyword}"
-            # url="http://httpbin.org/get"
->>>>>>> 1625bafad41b456730a435eda0c25b57c3e0d5f6
+
             yield scrapy.FormRequest(
                 url=url,
                 method="GET",
@@ -22,7 +18,9 @@ class douban(scrapy.Spider):
 
     def parse_search(self, response, **kwargs):
         print(response)
-
+        #xpath返回的是选择器列表
+        #response.xpath("//div[@class='search-result']")
+        #response.xpath("./h1/text()").extract_first()
         soup = BeautifulSoup(response.text.replace("\n", ""), "lxml")
         search_result = soup.select("div[class='search-result']")[0]
         heads = soup.select("div[class='search-result']>h2")

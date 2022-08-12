@@ -53,7 +53,8 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     #'scrapy_11.middlewares.Scrapy11DownloaderMiddleware': 543,
-    'scrapy_11.middlewares.UAMiddleware': 90
+    'scrapy_11.middlewares.UAMiddleware': 90,
+    'scrapy_11.middlewares.MyRetryMiddleware': 100
 }
 
 # Enable or disable extensions

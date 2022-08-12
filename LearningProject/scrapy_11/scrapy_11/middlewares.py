@@ -5,6 +5,9 @@
 
 from scrapy import signals
 from fake_useragent import UserAgent
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from scrapy.utils.response import response_status_message
+from scrapy.dupefilters import RFPDupeFilter
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
@@ -103,6 +106,7 @@ class Scrapy11DownloaderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
+
 class UAMiddleware:
     def process_request(self, request, spider):
         """
@@ -111,4 +115,20 @@ class UAMiddleware:
         :param spider:
         :return:
         """
-        request.headers.setdefault(b'User-Agent', "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0")
+        request.headers.setdefault(b'User-Agent',
+                                   "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0")
+
+
+class MyRetryMiddleware(RetryMiddleware):
+    """
+    自定义重试中间件，即使状态码为200，但仍然需要输入验证码的问题
+    """
+
+    def process_response(self, request, response, spider):
+        if request.meta.get('dont_retry', False):
+            return response
+        # if response.status in self.retry_http_codes:
+        if "验证码" in response.text:
+            reason = response_status_message(response.status)
+            return self._retry(request, reason, spider) or response
+        return response
